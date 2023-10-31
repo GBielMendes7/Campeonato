@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Campeonato</title>
+</head>
+<body>
+    
+
+    <div class="container">
+        <h1>Campeonato</h1>
+        <form id="timeForm" class="formNumTimes">
+            <label for="numeroDeTimes" class="numLabel">Número de Times:</label>
+            <input type="number" id="numeroDeTimes" class="numTimes" name="numeroDeTimes">
+            <button type="button" onclick="criarTimes()" class="botaoNumTimes">Criar Times</button>
+        </form>
+        <div class="te">
+            <h2 style="display: none;" id="teste" >Times:</h2>
+            <div id="nomesDosTimes"></div>
+            <button type="button" onclick="iniciarCampeonato()" style="display: none;" id="iniciarBtn">Iniciar Campeonato</button>
+        </div>
+        <div class="te">
+            <h2 style="display: none;" id="teste2">Tabela:</h2>
+            <div id="tabela"></div>
+        </div>
+        <div class="te">
+            <h2 style="display: none;" id="teste3">Confrontos:</h2>
+            <div id="confrontos"></div>
+
+            <h2 style="display: none;" id="teste4" >Resultados:</h2>
+            <div id="campeao"></div>
+        </div>
+    </div>
+
+
+
+    <script src="Torneio.js"></script>
+</body>
+</html>
