@@ -49,24 +49,27 @@ function gerarConfrontos(times) {
 }
 
 function handleButtonClick(i, confrontos, vencedores, faseAtual) {
-
     let form = document.getElementById('fase' + faseAtual + 'confronto' + (i + 1));
-    let placar = form.getElementsByTagName('input')[0].value;
+    let placarIda = form.getElementsByTagName('input')[0].value;
+    let placarVolta = form.getElementsByTagName('input')[1].value;
 
     let regex = /^\d+x\d+$/;
-    if (!regex.test(placar)) {
+    if (!regex.test(placarIda) || !regex.test(placarVolta)) {
         alert("Por favor, insira um placar válido.");
         return;
     }
-    let gols = placar.split('x').map(Number);
+    let golsIda = placarIda.split('x').map(Number);
+    let golsVolta = placarVolta.split('x').map(Number);
+
+    let golsTime1 = golsIda[0] + golsVolta[0];
+    let golsTime2 = golsIda[1] + golsVolta[1];
 
     let vencedor;
-    if (gols[0] > gols[1]) {
+    if (golsTime1 > golsTime2) {
         vencedor = confrontos[i][0];
-    } else if (gols[0] < gols[1]) {
+    } else if (golsTime1 < golsTime2) {
         vencedor = confrontos[i][1];
     } else {
-        // Adicione uma mensagem de erro se o placar for um empate
         alert("O jogo não pode terminar empatado. Por favor, insira um placar válido.");
         return;
     }
@@ -101,11 +104,17 @@ function determinarVencedores(confrontos, faseAtual) {
         form.appendChild(label);
         label.className = "timeConfronto";
     
-        let input = document.createElement('input');
-        input.type = 'text';
-        input.placeholder = '3 x 2';
-        form.appendChild(input);
-        input.className = "inputConfronto";
+        let inputIda = document.createElement('input');
+        inputIda.type = 'text';
+        inputIda.placeholder = 'Placar do jogo de ida (ex: 3 x 2)';
+        form.appendChild(inputIda);
+        inputIda.className = "inputConfronto";
+
+        let inputVolta = document.createElement('input');
+        inputVolta.type = 'text';
+        inputVolta.placeholder = 'Placar do jogo de volta (ex: 2 x 1)';
+        form.appendChild(inputVolta);
+        inputVolta.className = "inputConfronto";
     
         let button = document.createElement('button');
         button.type = 'button';
@@ -150,14 +159,11 @@ function torneio(times) {
         let h2 = document.createElement('h2');
         h2.innerHTML = fase;
 
-        // Cria uma nova div para a fase
         let faseDiv = document.createElement('div');
         faseDiv.appendChild(h2);
         
-        // Adiciona a div da fase à div pai
         fasesDiv.appendChild(faseDiv);
 
-        // Atualiza a referência do confrontosDiv para a nova div da fase
         confrontosDiv = faseDiv;
     }
 
@@ -167,6 +173,7 @@ function torneio(times) {
 
     if(times.length === 1) {
         campeao.innerHTML = "Parabéns! O campeão é " + times[0] + "!";
+        campeao.style.display = 'block';
         let allButtons = document.getElementsByTagName('button');
         for(let i = 0; i < allButtons.length; i++) {
             allButtons[i].disabled = true;
