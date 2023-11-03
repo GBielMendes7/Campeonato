@@ -99,10 +99,12 @@ function criarTabela(times) {
 
 
 function apresentarTabela(tabela) {
+    let numeroClassificados = numeroDeClassificados(tabela.length);
     let html = '<table><tr class="titulo"><th>Posição</th><th>Time</th><th>Pontos</th><th>Vitórias</th><th>Empates</th><th>Derrotas</th><th>Gols Marcados</th><th>Gols Sofridos</th></tr>';
 
     for (let i = 0; i < tabela.length; i++) {
-        html += '<tr><td>' + (i+1) + '</td><td class="destaque">' + tabela[i].time + '</td><td>' + tabela[i].pontos + '</td><td>' + tabela[i].vitorias + '</td><td>' + tabela[i].empates + '</td><td>' + tabela[i].derrotas + '</td><td>' + tabela[i].golsMarcados + '</td><td>' + tabela[i].golsSofridos + '</td></tr>';
+        let classe = i < numeroClassificados ? 'classificado' : '';
+        html += '<tr class="' + classe + '"><td>' + (i+1) + '</td><td class="destaque">' + tabela[i].time + '</td><td>' + tabela[i].pontos + '</td><td>' + tabela[i].vitorias + '</td><td>' + tabela[i].empates + '</td><td>' + tabela[i].derrotas + '</td><td>' + tabela[i].golsMarcados + '</td><td>' + tabela[i].golsSofridos + '</td></tr>';
     }
 
     html += '</table>';
@@ -145,7 +147,7 @@ function iniciarCampeonato() {
 
         let input = document.createElement('input');
         input.type = 'text';
-        input.placeholder = 'golsTime1-golsTime2';
+        input.placeholder = 'ex: 3x2';
         form.appendChild(input);
         input.className = "inputConfronto";
 
@@ -156,12 +158,12 @@ function iniciarCampeonato() {
         button.onclick = function() {
             let placar = form.getElementsByTagName('input')[0].value;
 
-            let regex = /^\d+-\d+$/;
+            let regex = /^\d+x\d+$/;
             if (!regex.test(placar)) {
                 alert("Por favor, insira um placar válido.");
                 return;
             }
-            let gols = placar.split('-').map(Number);
+            let gols = placar.split('x').map(Number);
             
             let vencedor;
             if (gols[0] > gols[1]) {
@@ -202,11 +204,11 @@ function iniciarCampeonato() {
 /* Segunda-Fase */
 
 function numeroDeClassificados(numeroDeTimes) {
-    if (numeroDeTimes <= 3) {
+    if (numeroDeTimes <= 4) {
         return 2;
-    } else if (numeroDeTimes <= 7) {
+    } else if (numeroDeTimes <= 8) {
         return 4;
-    } else if (numeroDeTimes <= 15) {
+    } else if (numeroDeTimes <= 16) {
         return 8;
     } else {
         return 16;
@@ -216,12 +218,8 @@ function numeroDeClassificados(numeroDeTimes) {
 
 function gerarConfrontos(times) {
     var confrontos = [];
-    for (var i = 0; i < times.length; i += 2) {
-        if (i + 1 < times.length) {
-            confrontos.push([times[i], times[i + 1]]);
-        } else {
-            confrontos.push([times[i]]);
-        }
+    for (var i = 0; i < times.length / 2; i++) {
+        confrontos.push([times[i], times[times.length - 1 - i]]);
     }
     return confrontos;
 }
@@ -284,13 +282,13 @@ function determinarVencedores(confrontos, faseAtual) {
     
         let inputIda = document.createElement('input');
         inputIda.type = 'text';
-        inputIda.placeholder = 'Placar do jogo de ida (ex: 3 x 2)';
+        inputIda.placeholder = 'Placar do jogo de ida (ex: 3x2)';
         form.appendChild(inputIda);
         inputIda.className = "inputConfronto";
 
         let inputVolta = document.createElement('input');
         inputVolta.type = 'text';
-        inputVolta.placeholder = 'Placar do jogo de volta (ex: 2 x 1)';
+        inputVolta.placeholder = 'Placar do jogo de volta (ex: 2x1)';
         form.appendChild(inputVolta);
         inputVolta.className = "inputConfronto";
     
@@ -357,8 +355,6 @@ function torneio(times) {
     
     var confrontos = gerarConfrontos(times);
     var vencedores = determinarVencedores(confrontos, faseAtual);
-
-    console.log(confrontos)
 
     faseAtual++
 }

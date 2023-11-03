@@ -199,6 +199,12 @@ button:active{
 
 
 /* posições */
+.classificado{
+    background-color: rgb(13 91 91);
+    font-weight: bold;
+    color: antiquewhite;
+
+}
 
 #campeao{
     display: flex;
