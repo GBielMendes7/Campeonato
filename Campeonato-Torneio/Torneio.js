@@ -167,10 +167,6 @@ function torneio(times) {
         confrontosDiv = faseDiv;
     }
 
-    var confrontos = gerarConfrontos(times);
-    var vencedores = determinarVencedores(confrontos, faseAtual);
-    faseAtual++
-
     if(times.length === 1) {
         campeao.innerHTML = "Parabéns! O campeão é " + times[0] + "!";
         campeao.style.display = 'block';
@@ -180,6 +176,10 @@ function torneio(times) {
         }
         return;
     }
+    
+    var confrontos = gerarConfrontos(times);
+    var vencedores = determinarVencedores(confrontos, faseAtual);
+    faseAtual++
 }
 
 document.getElementById('iniciarBtn').addEventListener('click', function() {
