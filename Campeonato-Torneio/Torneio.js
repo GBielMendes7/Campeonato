@@ -195,5 +195,3 @@ document.getElementById('iniciarBtn').addEventListener('click', function() {
 
     torneio(times);
 });
-
-
